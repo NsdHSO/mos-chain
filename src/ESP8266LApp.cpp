@@ -295,7 +295,7 @@ void ESP8266LApp::handleUpdateCall() {
 
     server.send(200, "text/plain", "OK");
 }
-void ESP8266LApp::printMessage(String& message){
+void ESP8266LApp::printMessage(const String& message){
     display.clear();
 
     // Convert to String for length check (optional)

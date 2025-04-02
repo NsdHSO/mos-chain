@@ -39,7 +39,7 @@ private:
     void handleRoot();
     void handleNotFound();
     void handleUpdateCall();
-    void printMessage(String& topic);
+    void printMessage(const String& topic);
 
 public:
     ESP8266LApp();
