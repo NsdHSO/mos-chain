@@ -39,11 +39,13 @@ private:
     void handleRoot();
     void handleNotFound();
     void handleUpdateCall();
+    void printMessage(String& topic);
 
 public:
     ESP8266LApp();
     void begin();
     void run();
+
 };
 
 #endif

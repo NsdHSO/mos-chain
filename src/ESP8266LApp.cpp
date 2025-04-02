@@ -281,10 +281,7 @@ void ESP8266LApp::handleUpdateCall() {
         message = server.arg("message");
 
         // Display on OLED
-        display.clear();
-        display.setFont(ArialMT_Plain_16);  // Set font
-        display.drawString(display.getWidth()/2, display.getHeight()/2, message);
-        display.display();
+        printMessage(message);
 
         // Publish to MQTT if connected
         if (client.connected()) {
@@ -297,4 +294,28 @@ void ESP8266LApp::handleUpdateCall() {
     }
 
     server.send(200, "text/plain", "OK");
+}
+void ESP8266LApp::printMessage(String& message){
+    display.clear();
+
+    // Convert to String for length check (optional)
+
+    // Use the largest font that fits the message
+    if (message.length() <= 5) {  // Short messages
+        display.setFont(ArialMT_Plain_24);
+    } else if (message.length() <= 20) {  // Medium messages
+        display.setFont(ArialMT_Plain_16);
+    } else {  // Long messages
+        display.setFont(ArialMT_Plain_10);
+    }
+
+    // Calculate position to center text
+    display.setTextAlignment(TEXT_ALIGN_CENTER);
+
+    // For SSD1306Wire (OLED display) the correct method is getHeight() not getFontHeight()
+    int16_t y = (display.getHeight() - 10) / 2; // 10 is approximate font height
+
+    // Draw centered string (simpler with TEXT_ALIGN_CENTER)
+    display.drawString(display.getWidth() / 2, y, message);
+    display.display();
 }
