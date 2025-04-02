@@ -282,8 +282,7 @@ void ESP8266LApp::handleUpdateCall() {
 
         // Display on OLED
         display.clear();
-        display.setTextSize(2);
-        display.setCursor(0, 16);
+        display.setFont(ArialMT_Plain_16);  // Set font
         display.drawString(display.getWidth()/2, display.getHeight()/2, message);
         display.display();
 
