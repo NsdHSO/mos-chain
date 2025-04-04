@@ -273,12 +273,12 @@ void ESP8266LApp::handleUpdateCall() {
         return;
     }
 
-    message = server.arg("message"); // Get the raw JSON string
+    message = urlDecode(server.arg("message")); // Get the raw JSON string
 
     // Parse the JSON message
     StaticJsonDocument<256> doc; // Adjust size based on your JSON data
     DeserializationError error = deserializeJson(doc, message);
-
+    Serial.printf("your message is: %s\n", message.c_str());
     if (error) {
         // Check for parsing errors
         String errorMsg = "JSON Parsing Failed: ";
@@ -349,4 +349,21 @@ void ESP8266LApp::printMessage(const String &message) {
     // Draw centered string (simpler with TEXT_ALIGN_CENTER)
     display.drawString(display.getWidth() / 2, y, message);
     display.display();
+}
+// URL decoding function (from earlier)
+String ESP8266LApp::urlDecode(String input) {
+    input.replace("+", " ");
+    String decoded = "";
+    char temp[] = "00";
+    for (size_t i = 0; i < input.length(); i++) {
+        if (input[i] == '%' && i + 2 < input.length()) {
+            temp[0] = input[i + 1];
+            temp[1] = input[i + 2];
+            decoded += (char)strtol(temp, NULL, 16);
+            i += 2;
+        } else {
+            decoded += input[i];
+        }
+    }
+    return decoded;
 }

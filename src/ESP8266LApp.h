@@ -31,13 +31,14 @@ private:
     WiFiClient espClient;
     PubSubClient client;
     SSD1306Wire display;
-
     // Private methods
     void callback(char* topic, byte* payload, unsigned int length);
     void printMQTTState(int state);
     void reconnect();
     void handleRoot();
     void handleNotFound();
+    String urlDecode(String string);
+
     void handleUpdateCall();
     void printMessage(const String& topic);
 
@@ -45,7 +46,6 @@ public:
     ESP8266LApp();
     void begin();
     void run();
-
 };
 
 #endif
