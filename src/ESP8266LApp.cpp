@@ -95,6 +95,7 @@ void ESP8266LApp::begin() {
     // Set up web server routes
     server.on("/", [this]() { this->handleRoot(); });
     server.on("/update", [this]() { this->handleUpdateCall(); });
+    server.on("/simple", [this]() { this->simpleMessage(); });
     server.on("/inline", [this]() {
         server.send(200, "text/plain", "this works as well");
     });
@@ -245,6 +246,25 @@ void ESP8266LApp::handleRoot() {
     digitalWrite(led, 1);
     server.send(200, "text/plain", "hello from esp8266!");
     digitalWrite(led, 0);
+}
+
+
+
+void ESP8266LApp::simpleMessage()  {
+    String message = "";
+
+    // Message parameter wasn't found
+    if (server.arg("message") == "") {
+        message = "Message Argument not found";
+    } else {
+        // message was found
+        message = server.arg("message");
+
+        // Display on OLED
+        printMessage(message);
+    }
+
+    server.send(200, "text/plain", "OK");
 }
 
 void ESP8266LApp::handleNotFound() {

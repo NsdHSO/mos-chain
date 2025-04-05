@@ -37,6 +37,7 @@ private:
     void reconnect();
     void handleRoot();
     void handleNotFound();
+    void simpleMessage();
     String urlDecode(String string);
 
     void handleUpdateCall();
